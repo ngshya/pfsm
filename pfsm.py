@@ -1,5 +1,12 @@
 # https://bergvca.github.io/2017/10/14/super-fast-string-matching.html
 
+
+def split(a, n):
+    k, m = divmod(len(a), n)
+    return (a[i * k + min(i, m):(i + 1) * k + min(i + 1, m)] for i in range(n))
+
+
+
 import re
 
 def ngrams(string, n=3):
