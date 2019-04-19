@@ -8,9 +8,63 @@ def split(a, n):
 
 
 import re
+import unidecode
 
 def ngrams(string, n=3):
-    string = re.sub(r'[,-./]|\sBD',r'', string)
+    string = string.upper()
+    string = unidecode.unidecode(string)
+    # string = re.sub(r'[,-./]|\sBD',r'', string)
+    
+    substitutions = [
+        ('[^a-zA-Z0-9 ]', ''),
+        ('\s+', ' '),
+        ('IN LIQ[^ ]*|LIQUIDAZIONE|IN FALL[^ ]*|FALLIMENTO|FALL [0-9]+|FALL[0-9]+', ''),
+        ("SOC.*COOP.*A.*R.*L.*", "SOCCOOPARL"),
+        ("SOCIETA A RESPONSABILITA LIMITATA|SC A RL|S R L", "SRL"),
+        (" S RL", " SRL"),
+        ("SOCIETA COOPERATIVA SOCIALE", "SCS"),
+        ("SOCIETA COOPERATIVA", "SC"),
+        (" A RL| A R L| AR L", " ARL"),
+        ("IMMOBILIARE", "IMM."),
+        ("CONSORZIO", "CONS."),
+        ("COOPERATIVA", "COOP."),
+        ("COSTRUZIONI", "COST."),
+        ("AUTOTRASPORTI", "AUT."),
+        ("CENTRO", "CNT."),
+        ("CONSORZIO", "CNS."),
+        ("BANK OF", "B."),
+        ("TELECOMMUNICATIONS", "TEL."), 
+        ("CORPORATION", "CORP."), 
+        ("TECHNOLOGIES", "TEC."),
+        ("SERVICES", "SER."),
+        ("PARTNERS", "PAR."),
+        ("REAL ESTATE", "RE."),
+        ("HOLDING", "H."),
+        ("LABORATORIES", "LAB."),
+        ("ENERGY", "EN."),
+        ("CAPITAL", "CAP."),
+        ("FACILITY", "FAC."),
+        ("PROPERTIES", "PRP."), 
+        ("ASSOCIATES", "ASS."),
+        ("LIMITED", "LTD"),
+        ("INVESTMENTS", "INV."),
+        ("FUNDS TRUST", "FT."), 
+        ("LIFE INSURANCE", "LI."), 
+        ("OPPORTUNITIES", "OPP."), 
+        ('\s+', ' ')
+    ]
+    
+    for search, replacement in substitutions:
+        string = re.sub(search, replacement, string)
+        
+    
+    lst_split = string.split(" ")
+    string = string + " " + lst_split[0] * 3
+    if len(lst_split) > 1:
+        string = string + " " + lst_split[1] * 2
+    if len(lst_split) > 2:
+        string = string + " " + lst_split[1] * 1
+        
     ngrams = zip(*[string[i:] for i in range(n)])
     return [''.join(ngram) for ngram in ngrams]
 
