@@ -1,6 +1,6 @@
 # Python Fast Strings Matching
 
-This package provides a fast way to perform strig matching tasks. 
+This package provides a fast way to perform strings matching tasks. 
 
 ## Installing pfsm
 
