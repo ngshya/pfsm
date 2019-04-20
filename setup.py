@@ -1,6 +1,6 @@
 from distutils.core import setup
 setup(
-  name = 'Python Fast Strings Matching',
+  name = 'pfsm',
   packages = ['pfsm'],
   version = '0.1',
   license='GNU General Public License v3.0',
