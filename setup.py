@@ -21,7 +21,7 @@ setup(
   package_data={
         'notebooks': ['notebooks/*'],
         'data': ['data/*']
-    }
+  },
   classifiers=[
     'Development Status :: 3 - Alpha', # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" 
     'Intended Audience :: Developers',
