@@ -1,14 +1,14 @@
 from distutils.core import setup
 setup(
-  name = 'python-fast-strings-matching',
+  name = 'pfsm',
   packages = ['pfsm'],
-  version = '0.1',
+  version = '0.1.2',
   license='GNU General Public License v3.0',
   description = 'Python Fast Strings Matching',
   author = 'ngshya',
   author_email = 'ngshya@gmail.com',
   url = 'https://github.com/ngshya/pfsm',
-  download_url = 'https://github.com/ngshya/pfsm/archive/v0.1.tar.gz',
+  download_url = 'https://github.com/ngshya/pfsm/archive/v0.1.2.tar.gz',
   keywords = ['strings matching', 'strings distance', 'cosine similarity', 'ngrams', 'tf-idf', 'fast', 'python'],
   install_requires=[
       'unidecode',
@@ -34,3 +34,4 @@ setup(
 # To upload the package:
 # python setup.py sdist
 # twine upload dist/*
+# rm -R dist

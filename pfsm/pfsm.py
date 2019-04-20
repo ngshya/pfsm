@@ -54,7 +54,6 @@ def ngrams(string, n=3):
     for search, replacement in substitutions:
         string = re.sub(search, replacement, string)
         
-    
     lst_split = string.split(" ")
     string = string + " " + lst_split[0] * 3
     if len(lst_split) > 1:
@@ -128,7 +127,7 @@ def pfsm(strings, top_n = 10, sim_th = 0.85, n_splits = 500, n_proc = 10):
     
     if len(strings) < n_splits:
         n_splits = len(strings)
-    
+            
     M = tfidfM(strings)
     
     int_entity_id = np.array([np.NaN for j in range(len(strings))])
@@ -142,23 +141,22 @@ def pfsm(strings, top_n = 10, sim_th = 0.85, n_splits = 500, n_proc = 10):
     r = pool.map(functools.partial(mycf, top_n = top_n, sim_th = sim_th, ns = ns), lst_split)
     pool.close()
     pool.join()
-    
-    out = np.array([])
-    for j in range(len(r)):
-        out = np.append(out, r[j])
+        
+    counter = 0
 
-    r = out
-
-    for j in range(len(r)):
-        idx = r[j]
-        if np.isscalar(idx):
-            idx = np.array([idx])
-        idx = idx.astype(int)
-        tmp_idx = int_entity_id[idx]
-        if sum([np.isnan(x) for x in tmp_idx]) == len(tmp_idx):
-            int_entity_id[idx] = j
-        else:
-            int_entity_id[idx] = np.nanmin(tmp_idx)
+    for k in range(len(r)):
+        tmp_array = r[k]
+        for j in range(len(tmp_array)):
+            idx = tmp_array[j]
+            if np.isscalar(idx):
+                idx = np.array([idx])
+            idx = idx.astype(int)
+            tmp_idx = int_entity_id[idx]
+            if sum([np.isnan(x) for x in tmp_idx]) == len(tmp_idx):
+                int_entity_id[idx] = counter
+            else:
+                int_entity_id[idx] = np.nanmin(tmp_idx)
+            counter = +1
 
     dtf_out = pd.DataFrame({"STRING": strings, "ENTITY_ID": int_entity_id}).sort_values(["ENTITY_ID"])
     
