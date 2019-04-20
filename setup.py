@@ -26,7 +26,11 @@ setup(
     'Development Status :: 3 - Alpha', # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" 
     'Intended Audience :: Developers',
     'Topic :: Text Processing',
-    'License :: OSI Approved ::  GNU General Public License v3 (GPLv3)',
+    'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
     'Programming Language :: Python :: 3.6'
   ],
 )
+
+# To upload the package:
+# python setup.py sdist
+# twine upload dist/*
