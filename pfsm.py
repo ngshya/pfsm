@@ -1,6 +1,3 @@
-# https://bergvca.github.io/2017/10/14/super-fast-string-matching.html
-
-
 def split(a, n):
     k, m = divmod(len(a), n)
     return (a[i * k + min(i, m):(i + 1) * k + min(i + 1, m)] for i in range(n))
@@ -109,3 +106,60 @@ def awesome_cossim_top(A, B, ntop, lower_bound=0):
         indptr, indices, data)
 
     return csr_matrix((data,indices,indptr),shape=(M,N))
+
+
+
+def mycf(idxs, top_n, sim_th, ns):
+    min_idxs = min(idxs)
+    matches_tmp = awesome_cossim_top(ns.M[idxs, ], ns.M[min_idxs:,].transpose(), top_n, sim_th)
+    return [matches_tmp[j, ].indices + min_idxs for j in range(matches_tmp.shape[0])]
+
+
+import numpy as np
+import pandas as pd
+import multiprocessing
+from multiprocessing import Pool
+import functools
+import sys
+
+def pfsm(strings, top_n = 10, sim_th = 0.85, n_splits = 500, n_proc = 10):
+    
+    strings = np.unique(strings)
+    
+    if len(strings) < n_splits:
+        n_splits = len(strings)
+    
+    M = tfidfM(strings)
+    
+    int_entity_id = np.array([np.NaN for j in range(len(strings))])
+    lst_split = list(split(range(M.shape[0]), n_splits))
+    
+    manager = multiprocessing.Manager()
+    ns = manager.Namespace()
+    ns.M = M
+    
+    pool = Pool(n_proc)
+    r = pool.map(functools.partial(mycf, top_n = top_n, sim_th = sim_th, ns = ns), lst_split)
+    pool.close()
+    pool.join()
+    
+    out = np.array([])
+    for j in range(len(r)):
+        out = np.append(out, r[j])
+
+    r = out
+
+    for j in range(len(r)):
+        idx = r[j]
+        if np.isscalar(idx):
+            idx = np.array([idx])
+        idx = idx.astype(int)
+        tmp_idx = int_entity_id[idx]
+        if sum([np.isnan(x) for x in tmp_idx]) == len(tmp_idx):
+            int_entity_id[idx] = j
+        else:
+            int_entity_id[idx] = np.nanmin(tmp_idx)
+
+    dtf_out = pd.DataFrame({"STRING": strings, "ENTITY_ID": int_entity_id}).sort_values(["ENTITY_ID"])
+    
+    return dtf_out

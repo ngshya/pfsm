@@ -1,1 +1,1 @@
-# py-fast-string-matching
+# Python Fast Strings Matching
