@@ -2,25 +2,26 @@ from distutils.core import setup
 setup(
   name = 'pfsm',
   packages = ['pfsm'],
-  version = '0.1.2',
+  version = '0.1.3',
   license='GNU General Public License v3.0',
   description = 'Python Fast Strings Matching',
   author = 'ngshya',
   author_email = 'ngshya@gmail.com',
   url = 'https://github.com/ngshya/pfsm',
-  download_url = 'https://github.com/ngshya/pfsm/archive/v0.1.2.tar.gz',
+  download_url = 'https://github.com/ngshya/pfsm/archive/v0.1.3.tar.gz',
   keywords = ['strings matching', 'strings distance', 'cosine similarity', 'ngrams', 'tf-idf', 'fast', 'python'],
   install_requires=[
       'unidecode',
       'scikit-learn',
       'numpy', 
       'scipy',
-      'sparse_dot_topn',
-      'pandas'
+      'pandas',
+      'sparse_dot_topn'
       ],
   package_data={
         'notebooks': ['notebooks/*'],
-        'data': ['data/*']
+        'data': ['data/*'],
+        'scripts': ['scripts/*']
   },
   classifiers=[
     'Development Status :: 3 - Alpha', # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" 
