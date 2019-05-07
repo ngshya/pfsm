@@ -1,1 +1,1 @@
-from .pfsm import pfsm
+from .pfsm import *
