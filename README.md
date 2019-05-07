@@ -19,7 +19,7 @@ def stringsVsStrings(array_1, array_2):
     obj = Strings(np.concatenate((np.array(array_1), np.array(array_2))))
     obj.processStrings()
     obj.tfidfM()
-    return cosimtop(obj.M[0:l,], obj.M[l:, ].transpose(), 3, 0.8)
+    return cosimtop(obj.M[0:l,], obj.M[l:, ].transpose(), 3, 0.5)
 
 M = stringsVsStrings(["Company X", "Bank XXYYZZ"], ["Bank XYZ", "Sample Corporation", "X Company"]).todense()
 ```
